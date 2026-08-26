@@ -1,0 +1,5 @@
+source      = "github:BurntSushi/ripgrep"
+description = "Recursively search directories for a regex pattern"
+homepage    = "https://github.com/BurntSushi/ripgrep"
+bin         = [{ name = "rg" }]
+provides    = ["rg"]
