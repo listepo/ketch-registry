@@ -20,3 +20,13 @@ jobs:
         run: cargo install --git https://github.com/listepo/ketch --locked --force
       - name: Validate registry
         run: ketch registry validate .
+
+      - name: rtok include covers Windows
+        run: |
+          python3 - <<'PY'
+          import tomllib
+          from pathlib import Path
+          data = tomllib.loads(Path("rtok/ketch.toml").read_text())
+          include = data.get("asset", {}).get("include", [])
+          assert any("pc-windows-msvc.zip" in p for p in include), include
+          PY
