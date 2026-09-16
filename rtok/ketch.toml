@@ -9,8 +9,12 @@ source = "github:listepo/rtok"
 description = "Reduce the context AI coding agents must carry"
 homepage = "https://github.com/listepo/rtok"
 
-# Prefer the platform .tar.xz archives dist publishes; skip the self-updater
-# sidecar and the source tarball so scoring cannot pick those by mistake.
+# Prefer platform archives dist publishes; skip self-updater sidecars and
+# the source tarball so scoring cannot pick those by mistake.
 [asset]
-include = ["*-apple-darwin.tar.xz", "*-linux-gnu.tar.xz"]
+include = [
+  "*-apple-darwin.tar.xz",
+  "*-linux-gnu.tar.xz",
+  "*-pc-windows-msvc.zip",
+]
 exclude = ["*-update*", "source.tar.gz"]
