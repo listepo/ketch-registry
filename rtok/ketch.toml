@@ -13,7 +13,8 @@ homepage = "https://github.com/listepo/rtok"
 # without an explicit `bin`, Windows auto-discovery treats
 # `plugins/cursor/scripts/mcp.cmd` (and `mcp.sh`) as installable binaries and
 # copies them into `~/.ketch/bin`, which then breaks upgrades.
-bin = [{ name = "rtok" }]
+# Path glob matches `rtok` (Unix) and `rtok.exe` (Windows).
+bin = [{ path = "rtok*", name = "rtok" }]
 
 # Prefer platform archives dist publishes; skip self-updater sidecars and
 # the source tarball so scoring cannot pick those by mistake.
