@@ -9,6 +9,12 @@ source = "github:listepo/rtok"
 description = "Reduce the context AI coding agents must carry"
 homepage = "https://github.com/listepo/rtok"
 
+# Only the CLI. The release zip also ships `plugins/` for `rtok agent setup`;
+# without an explicit `bin`, Windows auto-discovery treats
+# `plugins/cursor/scripts/mcp.cmd` (and `mcp.sh`) as installable binaries and
+# copies them into `~/.ketch/bin`, which then breaks upgrades.
+bin = [{ name = "rtok" }]
+
 # Prefer platform archives dist publishes; skip self-updater sidecars and
 # the source tarball so scoring cannot pick those by mistake.
 [asset]
