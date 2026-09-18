@@ -28,3 +28,33 @@ jobs:
           include = data.get("asset", {}).get("include", [])
           assert any("pc-windows-msvc.zip" in p for p in include), include
           PY
+
+      - name: runa selector keeps the CPU archives and drops the GPU variants
+        run: |
+          python3 - <<'PY'
+          import fnmatch
+          import tomllib
+          from pathlib import Path
+
+          data = tomllib.loads(Path("runa/ketch.toml").read_text())
+          include = data.get("asset", {}).get("include", [])
+          exclude = data.get("asset", {}).get("exclude", [])
+
+          for pattern in (
+              "runa-aarch64-apple-darwin.tar.xz",
+              "runa-x86_64-unknown-linux-gnu.tar.xz",
+              "runa-x86_64-pc-windows-msvc.zip",
+          ):
+              assert any(fnmatch.fnmatch(pattern, p) for p in include), (pattern, include)
+
+          # release-variants.yml uploads the GPU builds under the same target
+          # triples as the portable CPU archives; a selector that let one
+          # through would install a binary missing the GPU features.
+          for variant in (
+              "runa-aarch64-apple-darwin-metal.tar.xz",
+              "runa-x86_64-unknown-linux-gnu-vulkan.tar.xz",
+              "runa-x86_64-unknown-linux-gnu-cuda.tar.xz",
+          ):
+              assert not any(fnmatch.fnmatch(variant, p) for p in include), (variant, include)
+              assert any(fnmatch.fnmatch(variant, p) for p in exclude), (variant, exclude)
+          PY
